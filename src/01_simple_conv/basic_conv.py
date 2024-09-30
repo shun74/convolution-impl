@@ -1,3 +1,4 @@
+import os
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -21,6 +22,9 @@ def simple_conv2d(kernel : np.ndarray, src : np.ndarray) -> np.ndarray:
             for ky in range(0, kh):
                 for kx in range(0, kw):
                     dst[y, x] += kernel[ky, kx] * src[y + ky, x + kx]
+
+    dst = np.clip(dst, 0, 255)
+    dst = dst.astype(np.uint8)
     return dst
 
 if __name__ == "__main__":
@@ -31,7 +35,8 @@ if __name__ == "__main__":
     blur_kernel = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]) / 9
     img_out = simple_conv2d(blur_kernel, img_gray)
 
-    cv2.imwrite("output.png", img_out)
+    os.makedirs("outputs", exist_ok=True)
+    cv2.imwrite("outputs/output.png", img_out)
 
     # compare with original
     plt.subplot(1, 2, 1)
