@@ -11,19 +11,19 @@ def conv2d(src : np.ndarray, kernel : np.ndarray, stride : Tuple = (1, 1)) -> np
         src = np.expand_dims(src, axis=0)
 
     # prepare for processing
-    h, w, c = src.shape
+    h, w, ch = src.shape
     kh, kw = kernel.shape
     sh, sw = stride
     pad_w = kw // 2
     pad_h = kh // 2
-    pad_src = np.zeros((h + pad_h*2, w + pad_w*2, c), dtype=np.float32)
+    pad_src = np.zeros((h + pad_h*2, w + pad_w*2, ch), dtype=np.float32)
     pad_src[pad_h:h + pad_h, pad_w:w + pad_w, :] = src
     dst_w = int(w/ sw)
     dst_h = int(h/ sh)
-    dst = np.zeros((dst_h, dst_w, c), dtype=np.float32)
+    dst = np.zeros((dst_h, dst_w, ch), dtype=np.float32)
 
     # apply convolution
-    for c in range(0, c):
+    for c in range(0, ch):
         for y in range(0, dst_h):
             for x in range(0, dst_w):
                 for ky in range(0, kh):
